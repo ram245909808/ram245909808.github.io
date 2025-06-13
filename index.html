@@ -2,32 +2,63 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matrix Textadventure</title>
     <style>
         body {
             background-color: black;
             color: lime;
             font-family: Consolas, monospace;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             padding: 2rem;
+            min-height: 100vh;
+            margin: 0;
         }
+
+        h1 {
+            font-size: 1.8rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        p {
+            font-size: 1.2rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
         button {
             background-color: black;
             color: lime;
             border: 2px solid lime;
-            padding: 10px 20px;
-            margin: 10px;
+            padding: 0.8rem 1.5rem;
+            margin: 0.5rem;
             font-size: 1rem;
             cursor: pointer;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 300px;
         }
+
         .hidden {
             display: none;
+        }
+
+        #choices, #restartBtn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
         }
     </style>
 </head>
 <body>
 
 <h1>🟩 Willkommen in der Matrix</h1>
-<p id="story">Ein Anruf kommt rein. Was tust du?</p>
+<p id="story"></p>
 
 <div id="choices">
     <button onclick="makeChoice('annehmen')">📞 Annehmen</button>
@@ -38,6 +69,32 @@
 
 <script>
     let step = 0;
+
+    const intros = [
+        "Ein geheimnisvoller Anruf erreicht dich...",
+        "Du spürst, dass etwas mit der Welt nicht stimmt.",
+        "Ein schwarzer Bildschirm flackert vor deinen Augen.",
+        "Jemand flüstert: 'Folge dem weißen Kaninchen...'"
+    ];
+
+    const codeEndings = [
+        "🎉 Du hackst das System und öffnest den Zugang zur echten Welt!",
+        "🧠 Du wirst von Agenten entdeckt und musst fliehen!",
+        "🔓 Du findest Hinweise auf ein noch größeres Geheimnis."
+    ];
+
+    const spyEndings = [
+        "🕵️ Du enttarnst einen Maulwurf innerhalb der Matrix.",
+        "⚠️ Du wirst geschnappt, aber Neo rettet dich im letzten Moment.",
+        "🤖 Du entdeckst einen neuen Agenten-Typ – gefährlich!"
+    ];
+
+    function getRandom(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    // Initial random intro
+    document.getElementById("story").textContent = getRandom(intros);
 
     function makeChoice(choice) {
         const story = document.getElementById("story");
@@ -72,9 +129,9 @@
             }
         } else if (step === 2) {
             if (choice === "code") {
-                story.textContent = "🎉 Du entschlüsselst den Code und befreist Menschen.\nSpiel beendet.";
+                story.textContent = getRandom(codeEndings) + "\nSpiel beendet.";
             } else {
-                story.textContent = "🧠 Du hast geheime Daten extrahiert.\nSpiel beendet.";
+                story.textContent = getRandom(spyEndings) + "\nSpiel beendet.";
             }
             choices.classList.add("hidden");
             restartBtn.classList.remove("hidden");
@@ -82,7 +139,7 @@
     }
 
     function restartGame() {
-        location.reload(); // einfach neu laden
+        location.reload();
     }
 </script>
 
