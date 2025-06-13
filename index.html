@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Matrix Textadventure</title>
+    <style>
+        body {
+            background-color: black;
+            color: lime;
+            font-family: Consolas, monospace;
+            padding: 2rem;
+        }
+        button {
+            background-color: black;
+            color: lime;
+            border: 2px solid lime;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<h1>🟩 Willkommen in der Matrix</h1>
+<p id="story">Ein Anruf kommt rein. Was tust du?</p>
+
+<div id="choices">
+    <button onclick="makeChoice('annehmen')">📞 Annehmen</button>
+    <button onclick="makeChoice('ignorieren')">❌ Ignorieren</button>
+</div>
+
+<button id="restartBtn" class="hidden" onclick="restartGame()">🔁 Neustart</button>
+
+<script>
+    let step = 0;
+
+    function makeChoice(choice) {
+        const story = document.getElementById("story");
+        const choices = document.getElementById("choices");
+        const restartBtn = document.getElementById("restartBtn");
+
+        if (step === 0) {
+            if (choice === "annehmen") {
+                story.textContent = "Rot oder blaue Pille?";
+                choices.innerHTML = `
+                    <button onclick="makeChoice('rot')">🔴 Rot</button>
+                    <button onclick="makeChoice('blau')">🔵 Blau</button>
+                `;
+                step = 1;
+            } else {
+                story.textContent = "Du bleibst in der Illusion. Dein Wecker klingelt.\nSpiel beendet.";
+                choices.classList.add("hidden");
+                restartBtn.classList.remove("hidden");
+            }
+        } else if (step === 1) {
+            if (choice === "rot") {
+                story.textContent = "Wähle deine Mission:";
+                choices.innerHTML = `
+                    <button onclick="makeChoice('code')">💾 Code entschlüsseln</button>
+                    <button onclick="makeChoice('spionage')">🕵️ Spionage</button>
+                `;
+                step = 2;
+            } else {
+                story.textContent = "Du wählst das bequeme Leben in der Matrix.\nSpiel beendet.";
+                choices.classList.add("hidden");
+                restartBtn.classList.remove("hidden");
+            }
+        } else if (step === 2) {
+            if (choice === "code") {
+                story.textContent = "🎉 Du entschlüsselst den Code und befreist Menschen.\nSpiel beendet.";
+            } else {
+                story.textContent = "🧠 Du hast geheime Daten extrahiert.\nSpiel beendet.";
+            }
+            choices.classList.add("hidden");
+            restartBtn.classList.remove("hidden");
+        }
+    }
+
+    function restartGame() {
+        location.reload(); // einfach neu laden
+    }
+</script>
+
+</body>
+</html>
